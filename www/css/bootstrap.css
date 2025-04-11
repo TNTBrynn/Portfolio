@@ -6303,7 +6303,7 @@ td.visible-print {
   top: 11px;
   width: 300px;
   height: 200px;
-  background: url(../images/header-logo-i.svg) no-repeat;
+  background: url(../images/flag.svg) no-repeat;
   z-index: 900;
 }
 #header-logo-err {
