@@ -7100,8 +7100,8 @@ h1 {
   --background-color: #1F493F; /* Dark green background */
   --text-color: #80DBC6; /* Light green text */
   --link-color: #45b29a; /* Green links */
-  --link-hover-color: #29685a; /* Darker green for hover */
-  --button-bg-color: #1F493F; /* Button background */
+  --link-hover-color: #45b29a; /* Darker green for hover */
+  --button-bg-color: #29685a; /* Button background */
   --button-text-color: #80DBC6; /* Button text */
   --header-color: #80DBC6; /* Header text color */
   --footer-bg-color: #1F493F; /* Footer background */

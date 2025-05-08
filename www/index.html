@@ -117,7 +117,7 @@
         </div>
 
         <div id="earth-holder">
-          <img src="images/land.svg">
+          <img id="earth-image" src="images/land.svg">
         </div>
       </div>
 
@@ -149,7 +149,8 @@
             <h3>Salut!</h3>
 
 
-            <p>Je suis un programmeur. J'ai une passion pour l'intelligence artificielle et un amour pour la création.</p>
+            <p>Je suis un programmeur. J'ai une passion pour l'intelligence artificielle et un amour pour la création.
+            </p>
 
           </article>
 
@@ -331,12 +332,13 @@
 
             </header>
 
-            <p>Si vous avez une idée, une base de projet, que vous recherchez mon aide, ou voulez simplement dire coucou,
+            <p>Si vous avez une idée, une base de projet, que vous recherchez mon aide, ou voulez simplement dire
+              coucou,
               n'hésitez pas à me contacter.</p>
 
             <p class="btn-hldr">
 
-              <a href="#" class="main-btn email-lnk">envoyer un coucou</a>
+              <a href="mailto:gregdes.pro@gmail.com" class="main-btn email-lnk">envoyer un coucou</a>
 
             </p>
 
@@ -392,25 +394,37 @@
 
   <script>
     function updateCelestialBodies() {
-      const hour = new Date().getHours();
       const moon = document.getElementById('moon-holder');
       const sun = document.getElementById('sun-holder');
+      const earthImage = document.getElementById('earth-image');
       const body = document.body;
 
+      // Check the theme from the cookie
       const theme = getThemeFromCookie();
 
       if (theme === 'dark') {
         moon.classList.add('visible');
         sun.classList.remove('visible');
         body.classList.add('dark-theme');
-      } else if (hour >= 9 && hour < 17) {
+        earthImage.src = 'images/land.svg';
+      } else if (theme === 'light') {
         sun.classList.add('visible');
         moon.classList.remove('visible');
         body.classList.remove('dark-theme');
+        earthImage.src = 'images/light-hero.svg';
       } else {
-        moon.classList.add('visible');
-        sun.classList.remove('visible');
-        body.classList.add('dark-theme');
+        const hour = new Date().getHours();
+        if (hour >= 9 && hour < 17) {
+          sun.classList.add('visible');
+          moon.classList.remove('visible');
+          body.classList.remove('dark-theme');
+          earthImage.src = 'images/light-hero.svg';
+        } else {
+          moon.classList.add('visible');
+          sun.classList.remove('visible');
+          body.classList.add('dark-theme');
+          earthImage.src = 'images/land.svg';
+        }
       }
     }
 
@@ -429,6 +443,9 @@
         sun.classList.add('visible', 'animate-up');
         body.classList.remove('dark-theme');
         setThemeCookie('light');
+        setTimeout(() => {
+          location.reload();
+        }, 900);
 
         moon.addEventListener(
           'animationend',
@@ -444,6 +461,9 @@
         moon.classList.add('visible', 'animate-up');
         body.classList.add('dark-theme');
         setThemeCookie('dark');
+        setTimeout(() => {
+          location.reload();
+        }, 900);
 
         sun.addEventListener(
           'animationend',
@@ -455,6 +475,7 @@
         );
       }
     }
+
 
     // Event listeners for clicks
     document.getElementById('moon-holder').addEventListener('click', toggleCelestialBodies);
