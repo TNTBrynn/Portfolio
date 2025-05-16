@@ -6426,10 +6426,78 @@ header.nav-root {
 
 #moon-holder {
   position: absolute;
-  top: 250px;
-  left: 1700px; 
-  max-width: 150px; 
+  top: 220px;
+  left: 65vw;
+  max-width: 200px;
   z-index: 1;
+}
+
+/* Large desktops and ultrawide screens */
+@media (min-width: 1600px) {
+  #moon-holder {
+    left: 75vw;
+    top: 250px;
+    max-width: 150px;
+  }
+}
+
+/* Standard desktops */
+@media (min-width: 1200px) and (max-width: 1599px) {
+  #moon-holder {
+    left: 62vw;
+    top: 220px;
+    max-width: 100px;
+  }
+}
+
+/* Laptops and tablets landscape */
+@media (min-width: 900px) and (max-width: 1199px) {
+  #moon-holder {
+    left: 65vw;
+    top: 180px;
+    max-width: 90px;
+  }
+}
+
+/* Tablets portrait */
+@media (min-width: 600px) and (max-width: 899px) {
+  #moon-holder {
+    left: 68vw;
+    top: 140px;
+    max-width: 70px;
+  }
+}
+
+/* Mobile landscape */
+@media (max-width: 599px) and (orientation: landscape) {
+  #moon-holder {
+    left: 70vw;
+    top: 80px;
+    max-width: 50px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 599px) and (orientation: portrait) {
+  #moon-holder {
+    left: 60vw;
+    top: 60px;
+    max-width: 40px;
+  }
+}
+
+/* Extra tall screens (e.g., tablets in portrait) */
+@media (max-aspect-ratio: 3/4) {
+  #moon-holder {
+    top: 30vh;
+  }
+}
+
+/* Extra wide screens (ultrawide monitors) */
+@media (min-aspect-ratio: 21/9) {
+  #moon-holder {
+    left: 75vw;
+  }
 }
 
 #moon-holder img {
@@ -6488,14 +6556,30 @@ header.nav-root {
 }
 
 #earth-holder {
+   display: grid;
   position: relative; 
   margin: 0 auto;
   max-width: 1200px;
   overflow: hidden;
 }
-#earth-holder img {
+.earth-img {
+  grid-area: 1 / 1;
   width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  object-fit: cover;
+  display: block;
+  background: transparent;
 }
+
+.earth-img.visible {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+
 .masthead-wrap {
   -webkit-animation: fadeIn 0.5s ease-in-out;
   -moz-transition: fadeIn 0.5s ease-in-out;
@@ -6505,6 +6589,7 @@ header.nav-root {
 #title.work-head {
   padding-bottom: 4em;
 }
+
 h2.im-greg figure {
   max-width: 240px;
   margin: 0 auto;
