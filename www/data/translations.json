@@ -1,0 +1,72 @@
+{
+  "navbar": {
+    "fr": {
+      "about": "À propos",
+      "work": "Travail",
+      "notes": "Notes",
+      "back": "Retour",
+      "switch_lang": "Passer en anglais"
+    },
+    "en": {
+      "about": "About",
+      "work": "Work",
+      "notes": "Notes",
+      "back": "Back",
+      "switch_lang": "Switch to French"
+    }
+  },
+  "index": {
+    "fr": {
+      "im_greg": "Je suis greg.",
+      "header_desc": "un programmeur!",
+      "hello_title": "Salut!",
+      "hello_p": "Je suis un programmeur. J'ai une passion pour l'intelligence artificielle et un amour pour la création.",
+      "what_i_do_title": "Ce que je peux faire.",
+      "what_i_do_h3": "Réaliser tes projets.",
+      "what_i_do_p": "Visons grand ensemble. Parles moi de ce que tu veux faire, et je t'aiderais à accomplir tes buts.",
+      "developed_h3": "Développé.",
+      "developed_p": "Je suis un programmeur, je suis capable d'intégrer ou diriger une équipe pour un projet de taille.",
+      "help_title": "Laissez-moi aider.",
+      "help_h3": "Je suis disponible pour travailler.",
+      "help_p": "Si vous avez une idée, une base de projet, que vous recherchez mon aide, ou voulez simplement dire coucou, n'hésitez pas à me contacter.",
+      "send_hello": "envoyer un coucou"
+    },
+    "en": {
+      "im_greg": "I'm greg.",
+      "header_desc": "a programmer!",
+      "hello_title": "Hello!",
+      "hello_p": "I'm a programmer. I have a passion for artificial intelligence and a love for creation.",
+      "what_i_do_title": "What I can do.",
+      "what_i_do_h3": "Bring your projects to life.",
+      "what_i_do_p": "Let's aim high together. Tell me what you want to do, and I'll help you achieve your goals.",
+      "developed_h3": "Code.",
+      "developed_p": "I'm a programmer, able to join or lead a team for a large project.",
+      "help_title": "Let me help.",
+      "help_h3": "I'm available for work.",
+      "help_p": "If you have an idea, a project base, are looking for my help, or just want to say hello, feel free to contact me.",
+      "send_hello": "send a hello"
+    }
+  },
+  "notes": {
+    "fr": {
+      "title": "Notes.",
+      "desc": "Les Notes sont un espace pour explorer mes idées, réflexions et découvertes. Elles sont volontairement courtes et faciles à lire. Favorisant l'efficacité et la clarté.",
+      "back": "← Voir les autres Notes"
+    },
+    "en": {
+      "title": "Notes.",
+      "desc": "Notes are a space to explore my ideas, thoughts, and discoveries. They are intentionally short and easy to read, favoring efficiency and clarity.",
+      "back": "← See other Notes"
+    }
+  },
+  "travail": {
+    "fr": {
+      "title": "Mon Travail.",
+      "desc": "des preuves!"
+    },
+    "en": {
+      "title": "My Work.",
+      "desc": "proof!"
+    }
+  }
+}

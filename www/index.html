@@ -47,6 +47,10 @@
                 <li><a class="active" href="index.html">À propos</a></li>
                 <li><a href="travail.html">Travail</a></li>
                 <li><a href="notes.html">Notes</a></li>
+                <button id="lang-toggle" class="lang-btn" aria-label="Switch language"
+                  style="background:none;border:none;cursor:pointer;">
+                  <img id="lang-flag" src="images/Flag_EN.png" alt="Switch language" width="32" height="20">
+                </button>
               </ul>
             </nav>
 
@@ -80,7 +84,7 @@
 
                     <h1 class="im-greg">
 
-                       Je suis greg.
+                      Je suis greg.
 
                     </h1>
 
@@ -481,7 +485,7 @@
           () => {
             sun.classList.remove('animate');
             moon.classList.remove('animate-up');
-            
+
           },
           { once: true }
         );
@@ -515,6 +519,76 @@
     applyThemeFromCookie();
 
 
+  </script>
+
+  <!-- Language Toggle Script -->
+  <script>
+    let translations = {};
+    let currentLang = getLangFromCookie() || 'fr';
+
+    fetch('data/translations.json')
+      .then(res => res.json())
+      .then(data => {
+        translations = data;
+        applyTranslations();
+        updateFlag();
+      });
+
+    function applyTranslations() {
+  const t = translations['index'][currentLang];
+  const nav = translations['navbar'][currentLang];
+  if (!t || !nav) return;
+
+  // Navbar
+  const navLinks = document.querySelectorAll('.nav-list li a');
+  if (navLinks.length >= 3) {
+    navLinks[0].textContent = nav.about;
+    navLinks[1].textContent = nav.work;
+    navLinks[2].textContent = nav.notes;
+  }
+
+  // Main content
+  document.querySelector('.im-greg').textContent = t.im_greg;
+  document.querySelector('.header-desc').textContent = t.header_desc;
+  document.querySelector('#hello h3').textContent = t.hello_title;
+  document.querySelector('#hello p').textContent = t.hello_p;
+  document.querySelector('#what-i-do h2').textContent = t.what_i_do_title;
+  document.querySelector('#design .deets h3').textContent = t.what_i_do_h3;
+  document.querySelector('#design .deets p').textContent = t.what_i_do_p;
+  document.querySelector('#develop .deets h3').textContent = t.developed_h3;
+  document.querySelector('#develop .deets p').textContent = t.developed_p;
+  document.querySelector('#i-can-help h2').textContent = t.help_title;
+  document.querySelector('#i-can-help h3').textContent = t.help_h3;
+  document.querySelector('#i-can-help p:not(.btn-hldr)').textContent = t.help_p;
+  document.querySelector('.main-btn.email-lnk').textContent = t.send_hello;
+}
+
+    function updateFlag() {
+      const flagImg = document.getElementById('lang-flag');
+      if (currentLang === 'fr') {
+        flagImg.src = 'images/Flag_EN.png';
+        flagImg.alt = 'Switch to English';
+      } else {
+        flagImg.src = 'images/Flag_FR.png';
+        flagImg.alt = 'Passer en français';
+      }
+    }
+
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      currentLang = currentLang === 'fr' ? 'en' : 'fr';
+      setLangCookie(currentLang);
+      applyTranslations();
+      updateFlag();
+    });
+
+    function setLangCookie(lang) {
+      document.cookie = `lang=${lang}; path=/; max-age=31536000`;
+    }
+    function getLangFromCookie() {
+      const cookies = document.cookie.split('; ');
+      const langCookie = cookies.find(row => row.startsWith('lang='));
+      return langCookie ? langCookie.split('=')[1] : null;
+    }
   </script>
 
 </body>

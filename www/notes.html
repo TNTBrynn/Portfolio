@@ -48,6 +48,10 @@
                 <li><a class="active" href="index.html">À propos</a></li>
                 <li><a href="travail.html">Travail</a></li>
                 <li><a href="notes.html">Notes</a></li>
+                <button id="lang-toggle" class="lang-btn" aria-label="Switch language"
+                  style="background:none;border:none;cursor:pointer;">
+                  <img id="lang-flag" src="images/Flag_EN.png" alt="Switch language" width="32" height="20">
+                </button>
               </ul>
             </nav>
 
@@ -83,28 +87,14 @@
                       Notes.
 
                     </h1>
-
-                    <p class="header-desc">Les Notes sont un espace pour explorer mes idées, réflexions et découvertes. Ils sont volontairement courts et faciles à lire. Favorisant l'efficacité et la clarté.</p>
+                    <button id="blog-back" style="display:none;margin:2rem auto;">← Voir les autres Notes</button>
+                    <p class="header-desc">Les Notes sont un espace pour explorer mes idées, réflexions et découvertes.
+                      Elles sont volontairement courtes et faciles à lire. Favorisant l'efficacité et la clarté.</p>
                     <!-- Les cartes sont pour l'instant des liens, 
                      mais je préfèrerais une animation sur la même page
-                     Animation: slide clicked card to the top and fade in the content top to bottom--> 
-                    <div class="blog-list">
-                      <a class="blog-card" href="post1.html">
-                        <img src="images/post1-thumb.jpg" alt="Post 1" class="blog-thumb">
-                        <div class="blog-info">
-                          <h2 class="blog-title">My take on the AI surge</h2>
-                          <p class="blog-hook">blog hook</p>
-                        </div>
-                      </a>
-                      <a class="blog-card" href="post2.html">
-                        <img src="images/land.svg" alt="Post 2" class="blog-thumb">
-                        <div class="blog-info">
-                          <h2 class="blog-title">Why LLMs don't actually think</h2>
-                          <p class="blog-hook">blog hook</p>
-                        </div>
-                      </a>
-                      <!-- Ajoutez d'autres posts ici -->
-                    </div>
+                     Animation: slide clicked card to the top and fade in the content top to bottom-->
+                    <div class="blog-list"></div>
+                    <div id="blog-content"></div>
                   </div>
 
                 </div>
@@ -124,8 +114,36 @@
   <footer>
     <p>Grégory Desjardins © Tout droits réservés / All rights reserved.</p>
   </footer>
-  <script src="js/jquery-3.6.0.min.js"></script>
   <script>
+
+    function fetchAndRenderBlogs(lang) {
+      const blogFile = lang === 'en' ? 'data/blogsEN.json' : 'data/blogsFR.json';
+      fetch(blogFile)
+        .then(response => response.json())
+        .then(posts => {
+          const blogList = document.querySelector('.blog-list');
+          blogList.innerHTML = '';
+
+          posts.forEach(post => {
+            const card = document.createElement('a');
+            card.className = 'blog-card';
+            card.href = `post${post.id}.html`;
+
+            card.innerHTML = `
+          <img src="${post.image}" alt="${post.title}" class="blog-thumb">
+          <div class="blog-info">
+            <h2 class="blog-title">${post.title}</h2>
+            <p class="blog-hook">${post.hook}</p>
+          </div>
+        `;
+            card.dataset.content = post.content || '';
+            blogList.appendChild(card);
+          });
+
+          attachBlogCardEvents();
+        });
+    }
+
     function getThemeFromCookie() {
       const cookies = document.cookie.split('; ');
       const themeCookie = cookies.find((row) => row.startsWith('theme='));
@@ -144,6 +162,203 @@
 
     // Apply the theme on page load
     applyThemeFromCookie();
+  </script>
+  <script>
+    document.querySelectorAll('.blog-card').forEach(card => {
+      card.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (document.querySelector('.blog-list.animating')) return;
+
+        document.querySelector('.blog-list').classList.add('animating');
+
+        document.querySelectorAll('.blog-card').forEach(other => {
+          if (other !== card) {
+            other.classList.add('fading-out');
+          }
+        });
+
+        const headerDesc = document.querySelector('.header-desc');
+        const cardRect = card.getBoundingClientRect();
+        const headerRect = headerDesc.getBoundingClientRect();
+        const scrollY = window.scrollY || window.pageYOffset;
+        const targetY = headerRect.bottom + scrollY + 20;
+        const cardY = cardRect.top + scrollY;
+        const translateY = targetY - cardY;
+
+        card.classList.add('selected');
+        card.style.transform = `translateY(${translateY}px)`; //smooth?
+
+        setTimeout(() => {
+          const blogList = document.querySelector('.blog-list');
+          if (blogList.firstElementChild !== card) {
+            blogList.insertBefore(card, blogList.firstElementChild);
+          }
+          card.style.transform = '';
+          showBlogContent(card);
+          document.getElementById('blog-back').style.display = 'block';
+        }, 700);
+      });
+    });
+
+    function showBlogContent(card) {
+      const oldContent = document.getElementById('blog-content');
+      if (oldContent) oldContent.remove();
+
+      const blogContent = document.createElement('div');
+      blogContent.id = 'blog-content';
+      blogContent.className = 'visible';
+
+      const firstCard = document.querySelector('.blog-card');
+      firstCard.insertAdjacentElement('afterend', blogContent);
+
+      let content = card.dataset.content || "Blog post content not found.";
+      const paragraphs = content.split(/\n\s*\n/);
+
+      typeWriterParagraphs(blogContent, paragraphs, 0, 1);
+    }
+
+    function attachBlogCardEvents() {
+      document.querySelectorAll('.blog-card').forEach(card => {
+        card.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          if (document.querySelector('.blog-list.animating')) return;
+
+          document.querySelector('.blog-list').classList.add('animating');
+
+          document.querySelectorAll('.blog-card').forEach(other => {
+            if (other !== card) {
+              other.classList.add('fading-out');
+            }
+          });
+
+          const headerDesc = document.querySelector('.header-desc');
+          const cardRect = card.getBoundingClientRect();
+          const headerRect = headerDesc.getBoundingClientRect();
+          const scrollY = window.scrollY || window.pageYOffset;
+          const targetY = headerRect.bottom + scrollY + 2;
+          const cardY = cardRect.top + scrollY;
+          const translateY = targetY - cardY;
+
+          card.classList.add('selected');
+          card.style.transform = `translateY(${translateY}px)`;
+
+          setTimeout(() => {
+            const blogList = document.querySelector('.blog-list');
+            if (blogList.firstElementChild !== card) {
+              blogList.insertBefore(card, blogList.firstElementChild);
+            }
+            card.style.transform = '';
+            showBlogContent(card);
+            document.getElementById('blog-back').style.display = 'block';
+          }, 700);
+        });
+      });
+    }
+
+    function resetBlogView() {
+      document.querySelector('.blog-list').classList.remove('animating');
+      const oldContent = document.getElementById('blog-content');
+      if (oldContent) oldContent.remove();
+      document.getElementById('blog-back').style.display = 'none';
+    }
+
+    function typeWriter(element, text, i, speed, callback) {
+      if (i < text.length) {
+        element.innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(element, text, i + 1, speed, callback), speed);
+      } else if (callback) {
+        callback();
+      }
+    }
+
+    function typeWriterParagraphs(container, paragraphs, pIndex, speed) {
+      if (pIndex >= paragraphs.length) return;
+
+      const p = document.createElement('p');
+      container.appendChild(p);
+
+      typeWriter(p, paragraphs[pIndex], 0, speed, () => {
+        // After this paragraph, move to the next
+        typeWriterParagraphs(container, paragraphs, pIndex + 1, speed);
+      });
+    }
+
+    // Back button logic
+    document.getElementById('blog-back').addEventListener('click', function () {
+      document.querySelectorAll('.blog-card').forEach(card => {
+        card.classList.remove('fading-out', 'selected');
+        card.style.transform = '';
+      });
+      document.querySelector('.blog-list').classList.remove('animating');
+      const oldContent = document.getElementById('blog-content');
+      if (oldContent) oldContent.remove();
+      this.style.display = 'none';
+    });
+  </script>
+  <!-- Language Toggle Script -->
+  <script>
+    let translations = {};
+    let currentLang = getLangFromCookie() || 'fr';
+
+    fetch('data/translations.json')
+      .then(res => res.json())
+      .then(data => {
+        translations = data;
+        applyTranslations();
+        updateFlag();
+        fetchAndRenderBlogs(currentLang);
+      });
+
+    function applyTranslations() {
+      const t = translations['notes'][currentLang];
+      const nav = translations['navbar'][currentLang];
+      if (!t || !nav) return;
+
+      // Navbar
+      const navLinks = document.querySelectorAll('.nav-list li a');
+      if (navLinks.length >= 3) {
+        navLinks[0].textContent = nav.about;
+        navLinks[1].textContent = nav.work;
+        navLinks[2].textContent = nav.notes;
+      }
+
+      // Main content
+      document.querySelector('.im-greg').textContent = t.title;
+      document.querySelector('.header-desc').textContent = t.desc;
+      document.getElementById('blog-back').textContent = t.back;
+
+    }
+
+    function updateFlag() {
+      const flagImg = document.getElementById('lang-flag');
+      if (currentLang === 'fr') {
+        flagImg.src = 'images/Flag_EN.png';
+        flagImg.alt = 'Switch to English';
+      } else {
+        flagImg.src = 'images/Flag_FR.png';
+        flagImg.alt = 'Passer en français';
+      }
+    }
+
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      currentLang = currentLang === 'fr' ? 'en' : 'fr';
+      setLangCookie(currentLang);
+      applyTranslations();
+      updateFlag();
+      resetBlogView();
+      fetchAndRenderBlogs(currentLang);
+    });
+
+    function setLangCookie(lang) {
+      document.cookie = `lang=${lang}; path=/; max-age=31536000`;
+    }
+    function getLangFromCookie() {
+      const cookies = document.cookie.split('; ');
+      const langCookie = cookies.find(row => row.startsWith('lang='));
+      return langCookie ? langCookie.split('=')[1] : null;
+    }
   </script>
 </body>
 

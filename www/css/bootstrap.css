@@ -6349,6 +6349,29 @@ header.nav-top {
   z-index: 1000;
   -webkit-transform: translate3d(0, 0, 0);
 }
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-left: 1em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 30px;
+  vertical-align: middle;
+}
+
+#lang-flag {
+  width: 32px;
+  height: 20px;
+  object-fit: cover;
+  display: block;
+  margin: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-radius: 3px;
+}
 @media (min-width: 992px) {
   header.nav-top {
       opacity: 0;
@@ -7297,21 +7320,22 @@ footer p {
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
-  margin: 3rem 0;
+  margin: 2rem 0;
 }
 
   .blog-card {
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: var(--background-color, #fff);
+  background: var(--button-bg-color, #ff99cc);
+  color: var(--button-text-color, #ff007f);
   border-radius: 1.5rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   text-decoration: none;
   color: inherit;
   transition: box-shadow 0.3s;
   max-width: 1000px;
-  min-width: 700px;
+  min-width: 1000px;
   overflow: hidden;
 }
 
@@ -7338,8 +7362,68 @@ footer p {
 
   .blog-hook {
   margin: 0;
-  color: #666;
+  color: #000;
   font-size: 1.5rem;
+}
+#blog-back {
+  display: none;
+  margin: 2rem auto;
+  padding: 0.75em 2em;
+  background: var(--button-bg-color, #ff99cc);
+  color: var(--button-text-color, #ff007f);
+  border: none;
+  border-radius: 3px;
+  font-size: 1.5rem;
+  font-family: 'Nunito', HelveticaNeue-Light, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background-color 0.5s, color 0.5s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+#blog-back:hover {
+  background: var(--link-hover-color, #ff6ec7);
+  color: var(--button-text-color, #ff007f);
+}
+
+/* animations CSS */
+
+.blog-card {
+  transition: opacity 0.5s, transform 0.7s cubic-bezier(.77,0,.18,1);
+  cursor: pointer;
+  opacity: 1;
+  z-index: 1;
+}
+
+.blog-card.fading-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.blog-card.selected {
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+.blog-list.animating .blog-card:not(.selected) {
+  pointer-events: none;
+}
+
+#blog-content {
+  margin: 0.2rem auto 0 auto;
+  width: 1000px;
+  font-size: 2rem;
+  min-height: 120px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#blog-content p {
+  margin-bottom: 2.5rem;
+}
+
+#blog-content.visible {
+  opacity: 1;
 }
 
 }
