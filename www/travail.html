@@ -50,7 +50,7 @@
                 <li><a href="notes.html">Notes</a></li>
                 <button id="lang-toggle" class="lang-btn" aria-label="Switch language"
                   style="background:none;border:none;cursor:pointer;">
-                  <img id="lang-flag" src="images/Flag_EN.png" alt="Switch language" width="32" height="20">
+                  <img id="lang-flag" src="images/EN_Flag.svg" alt="Switch language" width="32" height="20">
                 </button>
               </ul>
             </nav>
@@ -170,7 +170,7 @@
     function updateFlag() {
       const flagImg = document.getElementById('lang-flag');
       if (currentLang === 'fr') {
-        flagImg.src = 'images/Flag_EN.png';
+        flagImg.src = 'images/EN_Flag.svg';
         flagImg.alt = 'Switch to English';
       } else {
         flagImg.src = 'images/Flag_FR.png';
