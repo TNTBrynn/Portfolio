@@ -62,11 +62,11 @@
   "travail": {
     "fr": {
       "title": "Mon Travail.",
-      "desc": "des preuves!"
+      "desc": "Une liste non-exhaustive de travaux personnels ou scolaires, qui démontrent mon apprentissage et mes compétences. Certains liens Github peuvent manquer dû à la confidentialité des projets. L'intégrité professionnelle est importante pour moi."
     },
     "en": {
       "title": "My Work.",
-      "desc": "proof!"
+      "desc": "A non-exhaustive list of personal or school projects that demonstrate my learning and skills. Some Github links may be missing due to project confidentiality. Professional integrity is important to me."
     }
   }
 }

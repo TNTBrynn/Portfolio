@@ -88,8 +88,9 @@
 
                     </h1>
 
-                    <p class="header-desc">des preuves!</p>
-
+                    <p class="header-desc">Une liste non-exhaustive de travaux personnels ou scolaires, qui démontrent
+                      mon apprentissage et mes compétences.</p>
+                    <div class="projects-grid"></div>
                   </div>
 
 
@@ -112,7 +113,6 @@
   <footer>
     <p>Grégory Desjardins © Tout droits réservés / All rights reserved.</p>
   </footer>
-  <script src="js/jquery-3.6.0.min.js"></script>
   <script>
     function getThemeFromCookie() {
       const cookies = document.cookie.split('; ');
@@ -139,14 +139,41 @@
     let translations = {};
     let currentLang = getLangFromCookie() || 'fr';
 
+
     fetch('data/translations.json')
       .then(res => res.json())
       .then(data => {
         translations = data;
         applyTranslations();
         updateFlag();
-        fetchAndRenderBlogs(currentLang);
       });
+
+    function fetchAndRenderProjects(lang) {
+      const file = lang === 'fr' ? 'data/projectsFR.json' : 'data/projectsEN.json';
+      fetch(file)
+        .then(response => response.json())
+        .then(projects => {
+          const grid = document.querySelector('.projects-grid');
+          grid.innerHTML = '';
+          projects.forEach(project => {
+            const panel = document.createElement('a');
+            panel.className = 'project-panel';
+            panel.href = project.github;
+            panel.target = '_blank';
+            panel.innerHTML = `
+          <img src="${project.image}" alt="${project.title}">
+          <div class="project-info">
+            <h3 class="project-title">${project.title}</h3>
+            <p class="project-desc">${project.desc}</p>
+            <span class="github-btn"${!project.github ? ' style="opacity:0.5;pointer-events:none;"' : ''}>
+              ${project.github_status} ${project.github ? '↗' : ''}
+            </span>
+          </div>
+        `;
+            grid.appendChild(panel);
+          });
+        });
+    }
 
     function applyTranslations() {
       const t = translations['travail'][currentLang];
@@ -164,6 +191,8 @@
       // Main content
       document.querySelector('.im-greg').textContent = t.title;
       document.querySelector('.header-desc').textContent = t.desc;
+
+      fetchAndRenderProjects(currentLang);
 
     }
 
@@ -183,8 +212,6 @@
       setLangCookie(currentLang);
       applyTranslations();
       updateFlag();
-      resetBlogView();
-      fetchAndRenderBlogs(currentLang);
     });
 
     function setLangCookie(lang) {
