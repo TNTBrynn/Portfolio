@@ -6561,7 +6561,7 @@ header.nav-root {
 @media (max-width: 599px) and (orientation: portrait) {
   #moon-holder {
     left: 3vh;
-    top: 35vh;
+    top: 35vh !important;
     max-width: 70px;
   }
   #sun-holder {
@@ -6725,7 +6725,6 @@ h2.notes img {
 }
 #title .cloud {
   position: absolute;
-  background: url(/web/20160902080736im_/http://seanhalpin.io/assets/img/ui/cloud.svg) top left no-repeat;
   width: 150px;
   height: 45px;
   -webkit-transition: all 1s ease-in-out;
@@ -6899,13 +6898,11 @@ p a:hover {
   max-width: 100px;
 }
 .breaker .line {
-  background-image: url(/web/20160902080736im_/http://seanhalpin.io/assets/img/ui/line-bg.png);
   height: 6px;
   width: 100%;
 }
 @media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
   .breaker .line {
-      background-image: url(/web/20160902080736im_/http://seanhalpin.io/assets/img/ui/line-bg@2x.png);
       background-size: auto 6px;
   }
 }
